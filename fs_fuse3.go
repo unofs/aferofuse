@@ -17,17 +17,23 @@ var (
 
 // Chmod3 changes file permissions (FUSE3 variant with file handle).
 func (afs *AferoFs) Chmod3(path string, mode uint32, fh uint64) int {
-	return afs.Chmod(path, mode)
+	errc := afs.Chmod(path, mode)
+	afs.debug("Chmod3", "path", path, "mode", mode, "fh", fh, "errc", errc)
+	return errc
 }
 
 // Chown3 changes file ownership (FUSE3 variant with file handle).
 func (afs *AferoFs) Chown3(path string, uid uint32, gid uint32, fh uint64) int {
-	return afs.Chown(path, uid, gid)
+	errc := afs.Chown(path, uid, gid)
+	afs.debug("Chown3", "path", path, "uid", uid, "gid", gid, "fh", fh, "errc", errc)
+	return errc
 }
 
 // Utimens3 changes file times (FUSE3 variant with file handle).
 func (afs *AferoFs) Utimens3(path string, tmsp []fuse.Timespec, fh uint64) int {
-	return afs.Utimens(path, tmsp)
+	errc := afs.Utimens(path, tmsp)
+	afs.debug("Utimens3", "path", path, "fh", fh, "errc", errc)
+	return errc
 }
 
 // Rename3 renames a file or directory (FUSE3 variant with flags).
@@ -36,7 +42,10 @@ func (afs *AferoFs) Utimens3(path string, tmsp []fuse.Timespec, fh uint64) int {
 // RENAME_WHITEOUT are not supported by afero and will return -EINVAL.
 func (afs *AferoFs) Rename3(oldpath string, newpath string, flags uint32) int {
 	if flags != 0 {
+		afs.debug("Rename3", "old", oldpath, "new", newpath, "flags", flags, "errc", -fuse.EINVAL)
 		return -fuse.EINVAL
 	}
-	return afs.Rename(oldpath, newpath)
+	errc := afs.Rename(oldpath, newpath)
+	afs.debug("Rename3", "old", oldpath, "new", newpath, "flags", flags, "errc", errc)
+	return errc
 }

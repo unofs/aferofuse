@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log/slog"
 	"os"
 	"os/signal"
 	"syscall"
@@ -21,8 +22,10 @@ func main() {
 	mountpoint := os.Args[1]
 	volumeName := os.Args[2]
 
+	logger := slog.New(slog.NewTextHandler(os.Stderr, &slog.HandlerOptions{Level: slog.LevelDebug}))
+
 	memFs := afero.NewMemMapFs()
-	afs := aferofuse.New(memFs)
+	afs := aferofuse.New(memFs, logger)
 
 	host := fuse.NewFileSystemHost(afs)
 

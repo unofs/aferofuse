@@ -15,6 +15,7 @@ var (
 //
 // afero does not support BSD flags, so this is a no-op that returns -ENOSYS.
 func (afs *AferoFs) Chflags(path string, flags uint32) int {
+	afs.debug("Chflags", "path", path, "flags", flags, "errc", -fuse.ENOSYS)
 	return -fuse.ENOSYS
 }
 
@@ -23,6 +24,7 @@ func (afs *AferoFs) Chflags(path string, flags uint32) int {
 // afero.Fs.Chtimes only supports atime and mtime, so creation time cannot be
 // set. This is a no-op that returns -ENOSYS.
 func (afs *AferoFs) Setcrtime(path string, tmsp fuse.Timespec) int {
+	afs.debug("Setcrtime", "path", path, "errc", -fuse.ENOSYS)
 	return -fuse.ENOSYS
 }
 
@@ -31,5 +33,6 @@ func (afs *AferoFs) Setcrtime(path string, tmsp fuse.Timespec) int {
 // afero.Fs.Chtimes only supports atime and mtime, so ctime cannot be set.
 // This is a no-op that returns -ENOSYS.
 func (afs *AferoFs) Setchgtime(path string, tmsp fuse.Timespec) int {
+	afs.debug("Setchgtime", "path", path, "errc", -fuse.ENOSYS)
 	return -fuse.ENOSYS
 }
