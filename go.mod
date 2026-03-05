@@ -1,4 +1,4 @@
-module github.com/unofs/afero-cgofuse
+module github.com/unofs/aferofuse
 
 go 1.24.2
 

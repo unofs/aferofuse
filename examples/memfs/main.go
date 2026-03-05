@@ -7,9 +7,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	aferofuse "github.com/unofs/afero-cgofuse"
-
 	"github.com/spf13/afero"
+	"github.com/unofs/aferofuse"
 	"github.com/winfsp/cgofuse/fuse"
 )
 
