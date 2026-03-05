@@ -23,14 +23,26 @@ type AferoFs struct {
 // compile-time assertion
 var _ fuse.FileSystemInterface = (*AferoFs)(nil)
 
+// Option configures an AferoFs.
+type Option func(*AferoFs)
+
+// WithLogger sets the logger for debug output.
+func WithLogger(logger *slog.Logger) Option {
+	return func(afs *AferoFs) {
+		afs.logger = logger
+	}
+}
+
 // New creates a new AferoFs wrapping the given afero filesystem.
-// If logger is nil, no debug logging is performed.
-func New(fs afero.Fs, logger *slog.Logger) *AferoFs {
-	return &AferoFs{
+func New(fs afero.Fs, opts ...Option) *AferoFs {
+	afs := &AferoFs{
 		fs:      fs,
 		handles: newHandleTable(),
-		logger:  logger,
 	}
+	for _, opt := range opts {
+		opt(afs)
+	}
+	return afs
 }
 
 func (afs *AferoFs) debug(op string, args ...any) {

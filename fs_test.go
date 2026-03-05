@@ -16,7 +16,7 @@ import (
 func newTestFs(t *testing.T) *AferoFs {
 	t.Helper()
 	memFs := afero.NewMemMapFs()
-	afs := New(memFs, nil)
+	afs := New(memFs)
 	afs.uid = 1000
 	afs.gid = 1000
 	return afs

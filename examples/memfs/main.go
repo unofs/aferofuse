@@ -25,7 +25,7 @@ func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stderr, &slog.HandlerOptions{Level: slog.LevelDebug}))
 
 	memFs := afero.NewMemMapFs()
-	afs := aferofuse.New(memFs, logger)
+	afs := aferofuse.New(memFs, aferofuse.WithLogger(logger))
 
 	host := fuse.NewFileSystemHost(afs)
 
